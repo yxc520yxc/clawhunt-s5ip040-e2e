@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>校对保存 · 虚构</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;max-width:720px;margin:48px auto;padding:0 20px}
+textarea{width:100%;height:120px;padding:10px;box-sizing:border-box}
+button{margin-top:12px;padding:10px 22px;background:#2563eb;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.msg{margin-top:12px;color:#0a7f3f}</style></head><body>
+<h1>校对保存（节目介绍）</h1>
+<label>项目 ID</label><input data-testid="pid" id="pid" placeholder="粘贴项目 ID">
+<button data-testid="load" id="load">加载</button>
+<div id="editor" hidden>
+  <label>可编辑正文</label>
+  <textarea data-testid="content" id="content"></textarea>
+  <button data-testid="save" id="save">保存校对</button>
+  <div class="msg" data-testid="msg" id="msg"></div>
+</div>
+<script>
+let pid = '', kind = 'show_notes';
+document.getElementById('load').onclick = async () => {
+  pid = document.getElementById('pid').value.trim();
+  const r = await fetch('/api/projects/'+pid+'/artifacts');
+  const arts = await r.json();
+  const a = arts.find(x => x.kind === kind) || arts[0];
+  if(!a){ alert('无内容'); return; }
+  kind = a.kind;
+  document.getElementById('content').value = a.content;
+  document.getElementById('editor').hidden = false;
+};
+document.getElementById('save').onclick = async () => {
+  const content = document.getElementById('content').value;
+  const r = await fetch('/api/projects/'+pid+'/artifacts/'+kind, {method:'PUT',
+    headers:{'Content-Type':'application/json'}, body: JSON.stringify({content})});
+  const d = await r.json();
+  document.getElementById('msg').textContent = d.saved ? '已保存 saved' : '保存失败';
+};
+</script></body></html>

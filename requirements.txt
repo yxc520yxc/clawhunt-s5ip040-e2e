@@ -1,0 +1,13 @@
+# 运行时依赖（版本锁定，保证 CI 可重复）
+fastapi==0.165.0
+httpx==0.28.1
+uvicorn==0.54.0
+pydantic==2.14.3
+psycopg[binary]==3.3.9
+SQLAlchemy==2.1.8
+python-docx==1.2.0
+pytest==9.2.0
+fakeredis==2.40.0
+redis==8.1.0
+minio==7.2.12
+playwright==1.65.2

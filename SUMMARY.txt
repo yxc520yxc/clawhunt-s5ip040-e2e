@@ -1,0 +1,7 @@
+=== SUMMARY ===
+[PASS] 验收1 主链路上传→导出+3文件存在
+[PASS] 验收2 3条异常链路状态码/状态断言
+[PASS] 验收3 Playwright 3页面用例+报告
+[PASS] 验收4 整套E2E耗时<=15分钟
+TOTAL_SECONDS=26.80 (API=11.96s BROWSER=14.84s)  LIMIT=900s
+RESULT: 4/4 checks passed; failed=[]

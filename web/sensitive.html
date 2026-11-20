@@ -1,0 +1,36 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>敏感处置 · 虚构</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;max-width:720px;margin:48px auto;padding:0 20px}
+button{padding:6px 14px;background:#dc2626;color:#fff;border:0;border-radius:6px;cursor:pointer}
+li{padding:8px 0;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center}
+input{padding:6px;width:240px}</style></head><body>
+<h1>敏感标记处置（虚构数据）</h1>
+<label>项目 ID</label><input data-testid="pid" id="pid" placeholder="粘贴项目 ID">
+<button data-testid="load" id="load" style="background:#2563eb">加载</button>
+<ul id="list"></ul>
+<script>
+let pid='';
+async function load(){
+  pid = document.getElementById('pid').value.trim();
+  const r = await fetch('/api/projects/'+pid+'/sensitive');
+  const rows = await r.json();
+  const ul = document.getElementById('list'); ul.innerHTML='';
+  rows.forEach(x=>{
+    const li=document.createElement('li');
+    li.setAttribute('data-testid','flag');
+    li.setAttribute('data-state',x.state);
+    li.innerHTML='<span>'+x.field+' · <b>'+x.state+'</b></span>';
+    if(x.state==='pending'){
+      const b=document.createElement('button');
+      b.setAttribute('data-testid','resolve');
+      b.textContent='处置';
+      b.onclick=async()=>{
+        await fetch('/api/projects/'+pid+'/sensitive/'+x.id+'/resolve',{method:'POST'});
+        load();
+      };
+      li.appendChild(b);
+    }
+    ul.appendChild(li);
+  });
+}
+document.getElementById('load').onclick=load;
+</script></body></html>

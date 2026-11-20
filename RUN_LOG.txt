@@ -1,0 +1,63 @@
+ENV Python=3.13.12
+ENV PG_DSN=postgresql://postgres@127.0.0.1:55439/e2e2380
+ENV storage_mode=local-stub  redis_mode=fakeredis-stub
+ENV PG=PostgreSQL 16.15, compiled by Visual C++ build 1944, 64-bit
+
+$ ensure_database(e2e2380) [ok]
+
+$ C:\Users\yang\asst1837-venv\Scripts\python.exe -m pytest -v -s tests/e2e/
+[E2E-API exit=0 elapsed=11.96s]
+--- stdout ---
+============================= test session starts =============================
+platform win32 -- Python 3.13.12, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\yang\asst1837-venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: F:\clawhunt-bridge\delivery-2380-v1
+plugins: anyio-4.16.0
+collecting ... collected 4 items
+
+tests/e2e/test_pipeline.py::test_1_main_flow_upload_to_export 
+[EXPORT-ARTIFACT] ['deliverable.docx', 'deliverable.md', 'deliverable.srt'] storage=local-stub
+
+[CASE] tests/e2e/test_pipeline.py::test_1_main_flow_upload_to_export -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_2_exc_missing_authorization_409 
+[CASE] tests/e2e/test_pipeline.py::test_2_exc_missing_authorization_409 -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_3_exc_transcribe_fail_retry_then_failed 
+[CASE] tests/e2e/test_pipeline.py::test_3_exc_transcribe_fail_retry_then_failed -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_4_exc_pending_sensitive_blocks_ready_409 
+[CASE] tests/e2e/test_pipeline.py::test_4_exc_pending_sensitive_blocks_ready_409 -> PASS
+PASSED
+
+============================= 4 passed in 10.75s ==============================
+
+$ C:\Users\yang\asst1837-venv\Scripts\python.exe -m pytest -v -s tests/playwright/
+[E2E-PLAYWRIGHT exit=0 elapsed=14.84s]
+--- stdout ---
+============================= test session starts =============================
+platform win32 -- Python 3.13.12, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\yang\asst1837-venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: F:\clawhunt-bridge\delivery-2380-v1
+plugins: anyio-4.16.0
+collecting ... collected 3 items
+
+tests/playwright/test_pages.py::test_pw_1_new_project 
+[CASE] tests/playwright/test_pages.py::test_pw_1_new_project -> PASS
+PASSED
+tests/playwright/test_pages.py::test_pw_2_proofread_save 
+[CASE] tests/playwright/test_pages.py::test_pw_2_proofread_save -> PASS
+PASSED
+tests/playwright/test_pages.py::test_pw_3_sensitive_resolve 
+[CASE] tests/playwright/test_pages.py::test_pw_3_sensitive_resolve -> PASS
+PASSED
+
+============================= 3 passed in 13.63s ==============================
+
+=== SUMMARY ===
+[PASS] 验收1 主链路上传→导出+3文件存在
+[PASS] 验收2 3条异常链路状态码/状态断言
+[PASS] 验收3 Playwright 3页面用例+报告
+[PASS] 验收4 整套E2E耗时<=15分钟
+TOTAL_SECONDS=26.80 (API=11.96s BROWSER=14.84s)  LIMIT=900s
+RESULT: 4/4 checks passed; failed=[]

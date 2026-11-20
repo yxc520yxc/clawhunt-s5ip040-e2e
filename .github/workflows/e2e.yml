@@ -1,0 +1,89 @@
+name: E2E S5-IP-040
+# CI 中整套端到端测试：docker compose 起 PG16 + Redis7 + MinIO（真实后端），
+# API/Browser 两 job 并行，目标 <= 15 分钟；上传逐用例日志、导出物、Playwright 报告为 artifact。
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  e2e-api:
+    name: 主链路 + 异常链路 (pytest / 真 PG+Redis+MinIO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - name: 启动 docker compose 全栈（PG/Redis/MinIO + bucket 初始化）
+        run: |
+          docker compose up -d postgres redis minio minio-init
+          for i in $(seq 1 30); do
+            if docker compose ps --status running | grep -q postgres && \
+               curl -sf http://127.0.0.1:9000/minio/health/live >/dev/null; then break; fi
+            sleep 2
+          done
+          docker compose ps
+      - name: 运行 API E2E 并计时（逐用例名输出）
+        env:
+          E2E_PG_DSN: postgresql://postgres:postgres@127.0.0.1:5432/e2e2380
+          E2E_PG_ADMIN_DSN: postgresql://postgres:postgres@127.0.0.1:5432/postgres
+          REDIS_URL: redis://127.0.0.1:6379/0
+          MINIO_ENDPOINT: http://127.0.0.1:9000
+          MINIO_ACCESS_KEY: e2euser
+          MINIO_SECRET_KEY: e2epassword123
+          MINIO_BUCKET: e2e-2380
+        run: |
+          mkdir -p evidence
+          START=$(date +%s)
+          pytest -v -s tests/e2e/ 2>&1 | tee evidence/e2e-api.log
+          RC=${PIPESTATUS[0]}
+          END=$(date +%s)
+          echo "API_E2E_SECONDS=$((END-START))" | tee -a evidence/timings.txt
+          echo "API_E2E_EXIT=$RC" | tee -a evidence/timings.txt
+          exit $RC
+      - name: 核对导出 artifact（test_1 已将 md/docx/srt 落到 evidence/exports）
+        if: always()
+        run: find evidence/exports -type f -printf '%f %s B\n' 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: e2e-api-evidence, path: evidence/}
+
+  e2e-browser:
+    name: Playwright 3 页面用例 (真 PG+Redis+MinIO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt && playwright install chromium --with-deps
+      - name: 启动 docker compose 全栈（PG/Redis/MinIO + bucket 初始化）
+        run: |
+          docker compose up -d postgres redis minio minio-init
+          for i in $(seq 1 30); do
+            if docker compose ps --status running | grep -q postgres && \
+               curl -sf http://127.0.0.1:9000/minio/health/live >/dev/null; then break; fi
+            sleep 2
+          done
+          docker compose ps
+      - name: 运行 Playwright E2E 并计时（3 页面用例，逐用例名输出）
+        env:
+          E2E_PG_DSN: postgresql://postgres:postgres@127.0.0.1:5432/e2e2380
+          E2E_PG_ADMIN_DSN: postgresql://postgres:postgres@127.0.0.1:5432/postgres
+          REDIS_URL: redis://127.0.0.1:6379/0
+          MINIO_ENDPOINT: http://127.0.0.1:9000
+          MINIO_ACCESS_KEY: e2euser
+          MINIO_SECRET_KEY: e2epassword123
+          MINIO_BUCKET: e2e-2380
+          # 不设 PW_CHANNEL -> 用 playwright install chromium 装的 bundled 内核
+        run: |
+          mkdir -p evidence
+          START=$(date +%s)
+          pytest -v -s tests/playwright/ 2>&1 | tee evidence/e2e-browser.log
+          RC=${PIPESTATUS[0]}
+          END=$(date +%s)
+          echo "BROWSER_E2E_SECONDS=$((END-START))" | tee -a evidence/timings-browser.txt
+          echo "BROWSER_E2E_EXIT=$RC" | tee -a evidence/timings-browser.txt
+          exit $RC
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: e2e-browser-evidence, path: evidence/}

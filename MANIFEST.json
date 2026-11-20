@@ -1,0 +1,120 @@
+{
+  "package": "S5-IP-040-e2e-delivery-v1",
+  "file_count": 28,
+  "total_bytes": 63392,
+  "self_excluded": "MANIFEST.json (自引用剔除)",
+  "files": {
+    ".github/workflows/e2e.yml": {
+      "size": 2526,
+      "sha256": "9a245f0f5661efac200f633750441942d0a9633ea9405e52e5079fe579933264"
+    },
+    "app/__init__.py": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "app/config.py": {
+      "size": 531,
+      "sha256": "1c1124a5349a0152fa5362dde2a69cd8afe019ebde2788449a31ede0d74a9998"
+    },
+    "app/db.py": {
+      "size": 3018,
+      "sha256": "3c627913b89340cdbda4cf1556d3f78b0db3779f11bbe738766d5c7f335ff90c"
+    },
+    "app/main.py": {
+      "size": 12915,
+      "sha256": "6a525a12d11d7b04a72abcaa5e3eb3269d6b6844c851f8ec799fa8e18559363f"
+    },
+    "docker-compose.yml": {
+      "size": 1360,
+      "sha256": "542c8ccf0a566d44011adf5b23ad60b8e676d566979e16d5d3b365b6ce0a4dce"
+    },
+    "Dockerfile": {
+      "size": 288,
+      "sha256": "0bc29973bbfb5ada728e27eaffb8a619412f8e39e03762ad8092ac1bfa44bb96"
+    },
+    "evidence/playwright-report.html": {
+      "size": 1071,
+      "sha256": "4a4c800399d9c718d9d1b2133ed428fcdc12e9cb8af5f4eb99187065cb231d26"
+    },
+    "evidence/RUN_LOG_20261119T230608Z.txt": {
+      "size": 963,
+      "sha256": "14681d4195b2a320ba4c573f4f254912a4d270b42c5b1024d86e93c2bdcce776"
+    },
+    "fixtures/fabricated.py": {
+      "size": 680,
+      "sha256": "d67f955e4d51c934239aa549387bbcd2f280a8777c79fda8091effae7594d0ec"
+    },
+    "README.md": {
+      "size": 7405,
+      "sha256": "6d4ccc819611a4f46503b7b44974af64e330e276e5440e808ff8cc94eb35ca7b"
+    },
+    "requirements.txt": {
+      "size": 246,
+      "sha256": "64bc767507906cafe52eb80cdbbedf7c64f974663655edc60ec25ccecdb351f3"
+    },
+    "run_all.py": {
+      "size": 3261,
+      "sha256": "5d3bd0f2b285543bf4a253d3520e4a5397d657c9e47a6c7e933d4e037b49fd33"
+    },
+    "RUN_LOG.txt": {
+      "size": 963,
+      "sha256": "14681d4195b2a320ba4c573f4f254912a4d270b42c5b1024d86e93c2bdcce776"
+    },
+    "solution.md": {
+      "size": 5762,
+      "sha256": "b59350b107b133fa3b75c55435da243f130f52a72523d8e8eb118d855dddbfdb"
+    },
+    "stubs/__init__.py": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stubs/services.py": {
+      "size": 2466,
+      "sha256": "4d79d92ab4a6d1ef9da665f63a1e2e68768b9a82c40293189c15728e28154820"
+    },
+    "SUMMARY.txt": {
+      "size": 314,
+      "sha256": "12cab47ce78b819ce6d7328109800af06f74b94bfd1ce0034e7871b1f7d39daf"
+    },
+    "tests/__init__.py": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/conftest.py": {
+      "size": 2133,
+      "sha256": "7cfc0f8674bd987d4a9b061d660d0c4001847615deb4d05b5d9277b5c00c6dc0"
+    },
+    "tests/e2e/__init__.py": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/e2e/test_pipeline.py": {
+      "size": 5667,
+      "sha256": "60b587f0cd35bcf9e625b7ebb267ad49491de7614ac2dee54890f74772199d2a"
+    },
+    "tests/playwright/__init__.py": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/playwright/test_pages.py": {
+      "size": 6483,
+      "sha256": "436281efa99d371259854a7a660b3fca1b5443a17ada11693f3c4d160414c49e"
+    },
+    "verify.cmd": {
+      "size": 642,
+      "sha256": "470541e5dbeaa2ad318377f542565e5066a780c825bcfb3c01c375630c479e39"
+    },
+    "web/new.html": {
+      "size": 1333,
+      "sha256": "a36e9ba214aa22db9eb4017fb59c3ffb8a8b700da8f15e8131d789691e0cc627"
+    },
+    "web/proofread.html": {
+      "size": 1765,
+      "sha256": "1c6398df23b03d32b8b75107681f73a88fb85e5e8b3de65521311ec067453d39"
+    },
+    "web/sensitive.html": {
+      "size": 1600,
+      "sha256": "7687565ae045c185e29ef7e718c544c5b099d7da993505cbe2affc448e0ff59e"
+    }
+  }
+}

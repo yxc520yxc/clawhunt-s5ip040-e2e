@@ -1,0 +1,21 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>新建项目 · 虚构</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;max-width:640px;margin:48px auto;padding:0 20px}
+label{display:block;margin:16px 0 6px}input{padding:8px;width:100%;box-sizing:border-box}
+button{margin-top:18px;padding:10px 22px;background:#2563eb;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.card{padding:16px;border:1px solid #e2e8f0;border-radius:8px;margin-top:20px}</style></head><body>
+<h1>新建虚构项目</h1>
+<form id="f"><label>节目标题</label>
+<input data-testid="title" name="title" value="虚构节目 · 端到端测试"></form>
+<button data-testid="submit" id="btn">创建项目</button>
+<div class="card" data-testid="result" id="result" hidden></div>
+<script>
+document.getElementById('btn').onclick = async () => {
+  const title = document.querySelector('[data-testid=title]').value;
+  const r = await fetch('/api/projects', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({title})});
+  const d = await r.json();
+  const el = document.getElementById('result');
+  el.hidden = false;
+  el.innerHTML = '<b>已创建</b><br>ID: <span data-testid="pid">'+d.id+'</span><br>状态: <span data-testid="status">'+d.status+'</span>';
+};
+</script></body></html>
