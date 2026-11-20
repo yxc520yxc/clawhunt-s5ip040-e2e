@@ -21,32 +21,35 @@ services:
       timeout: 3s
       retries: 20
 
+  # MinIO 社区版镜像已从 Docker Hub 下架、quay.io 匿名拉取被拒（2026 现状）。
+  # 使用公开 GHCR 社区重建镜像（源码 AGPL-3.0 构建，内置 mc），GitHub Actions 同生态免登录可拉。
   minio:
-    image: minio/minio:latest
+    image: ghcr.io/intikhab49/minio-from-source:RELEASE.2025-10-15T17-29-55Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: e2euser
       MINIO_ROOT_PASSWORD: e2epassword123
     ports: ["9000:9000", "9001:9001"]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD", "curl", "-fsS", "http://localhost:9000/minio/health/live"]
       interval: 3s
       timeout: 3s
       retries: 20
       start_period: 10s
 
-  # 一次性初始化 MinIO bucket（幂等）：mc 带重试等 MinIO 就绪，保证分片/导出对象有落点。
+  # 一次性初始化 MinIO bucket（幂等）：复用内置 mc 的同一镜像，带重试等 MinIO 就绪。
   # 应用侧 _minio() 也有 bucket_exists/make_bucket 兜底，双保险。
   minio-init:
-    image: minio/mc:latest
+    image: ghcr.io/intikhab49/minio-from-source:RELEASE.2025-10-15T17-29-55Z
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until mc alias set local http://minio:9000 e2euser e2epassword123; do sleep 2; done
+        mc mb --ignore-existing local/e2e-2380
+        echo MINIO_BUCKET_READY
     depends_on:
       minio: {condition: service_started}
-    entrypoint: >
-      /bin/sh -c "
-      until mc alias set local http://minio:9000 e2euser e2epassword123; do sleep 2; done &&
-      mc mb --ignore-existing local/e2e-2380 &&
-      echo MINIO_BUCKET_READY
-      "
 
   # 被测系统 + 桩服务（模型网关桩 / 复核队列桩 / 本地转写桩）
   # 测试自身用 pytest 起 uvicorn 连这些真实后端；此服务用于手工端到端联调/占位。
