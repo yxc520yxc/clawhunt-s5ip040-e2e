@@ -1,0 +1,30 @@
+{
+  "repo": "https://github.com/yxc520yxc/clawhunt-s5ip040-e2e",
+  "run_url": "https://github.com/yxc520yxc/clawhunt-s5ip040-e2e/actions/runs/44737304568",
+  "run_number": 3,
+  "conclusion": "success",
+  "created_at": "2026-11-20T12:37:17Z",
+  "updated_at": "2026-11-20T12:38:30Z",
+  "jobs": {
+    "e2e-api": {
+      "conclusion": "success",
+      "job_seconds": 29,
+      "API_E2E_SECONDS": 2,
+      "API_E2E_EXIT": 0
+    },
+    "e2e-browser": {
+      "conclusion": "success",
+      "job_seconds": 71,
+      "BROWSER_E2E_SECONDS": 6,
+      "BROWSER_E2E_EXIT": 0
+    }
+  },
+  "storage_mode": "minio (真实 MinIO 对象存储, GHCR 社区镜像)",
+  "redis_mode": "real-redis (REDIS_URL)",
+  "db": "PostgreSQL 16 (docker compose)",
+  "artifacts": [
+    "e2e-api-evidence",
+    "e2e-browser-evidence"
+  ],
+  "note": "run #1/#2 因 MinIO 镜像从 Docker Hub/quay.io 下架起栈失败；run #3 改用 GHCR 社区镜像后 success"
+}

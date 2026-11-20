@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.18, pytest-9.2.0, pluggy-1.7.0 -- /opt/hostedtoolcache/Python/3.11.18/x64/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/clawhunt-s5ip040-e2e/clawhunt-s5ip040-e2e
+plugins: anyio-4.16.0
+collecting ... collected 3 items
+
+tests/playwright/test_pages.py::test_pw_1_new_project 
+[CASE] tests/playwright/test_pages.py::test_pw_1_new_project -> PASS
+PASSED
+tests/playwright/test_pages.py::test_pw_2_proofread_save 
+[CASE] tests/playwright/test_pages.py::test_pw_2_proofread_save -> PASS
+PASSED
+tests/playwright/test_pages.py::test_pw_3_sensitive_resolve 
+[CASE] tests/playwright/test_pages.py::test_pw_3_sensitive_resolve -> PASS
+PASSED
+
+============================== 3 passed in 5.07s ===============================

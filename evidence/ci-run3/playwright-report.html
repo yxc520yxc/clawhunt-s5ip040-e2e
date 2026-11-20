@@ -1,0 +1,10 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>S5-IP-040 Playwright 运行报告</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;max-width:900px;margin:40px auto;padding:0 20px}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px;text-align:left}
+h1{color:#1b1f24} .ok{color:#0a7f3f;font-weight:bold}</style></head><body>
+<h1>Playwright 页面用例运行报告（3 个页面用例）</h1>
+<p>浏览器：Playwright chromium（bundled chromium，headless） · 页面由真实 uvicorn 服务承载 · 数据落真实 PostgreSQL。</p>
+<p>结论：<span class="ok">3/3 PASS</span>（本报告由 pytest 会话 teardown 生成，不计入用例数）</p>
+<table><tr><th>用例</th><th>结果</th><th>证据</th><th>时间</th></tr><tr><td>新建项目页</td><td>PASS</td><td>status=staging, pid=1d3b8abc…, 0.63s</td><td>12:38:25</td></tr><tr><td>校对保存页</td><td>PASS</td><td>msg=已保存 saved, db_updated=True, 0.82s</td><td>12:38:26</td></tr><tr><td>敏感处置页</td><td>PASS</td><td>pending 2->1, db_resolved=1, 0.73s</td><td>12:38:26</td></tr></table>
+</body></html>

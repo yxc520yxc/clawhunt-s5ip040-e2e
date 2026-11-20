@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.18, pytest-9.2.0, pluggy-1.7.0 -- /opt/hostedtoolcache/Python/3.11.18/x64/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/clawhunt-s5ip040-e2e/clawhunt-s5ip040-e2e
+plugins: anyio-4.16.0
+collecting ... collected 4 items
+
+tests/e2e/test_pipeline.py::test_1_main_flow_upload_to_export 
+[EXPORT-ARTIFACT] ['deliverable.docx', 'deliverable.md', 'deliverable.srt'] storage=minio
+
+[CASE] tests/e2e/test_pipeline.py::test_1_main_flow_upload_to_export -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_2_exc_missing_authorization_409 
+[CASE] tests/e2e/test_pipeline.py::test_2_exc_missing_authorization_409 -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_3_exc_transcribe_fail_retry_then_failed 
+[CASE] tests/e2e/test_pipeline.py::test_3_exc_transcribe_fail_retry_then_failed -> PASS
+PASSED
+tests/e2e/test_pipeline.py::test_4_exc_pending_sensitive_blocks_ready_409 
+[CASE] tests/e2e/test_pipeline.py::test_4_exc_pending_sensitive_blocks_ready_409 -> PASS
+PASSED
+
+============================== 4 passed in 1.41s ===============================
